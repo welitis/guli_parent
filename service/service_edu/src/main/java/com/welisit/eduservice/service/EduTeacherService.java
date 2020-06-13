@@ -15,5 +15,10 @@ import com.welisit.eduservice.entity.dto.TeacherQueryParam;
  */
 public interface EduTeacherService extends IService<EduTeacher> {
 
+    /**
+     * 讲师列表分页查询
+     * @param page 分页对象
+     * @param teacherQueryParam 查询参数对象
+     */
     void pageQuery(Page<EduTeacher> page, TeacherQueryParam teacherQueryParam);
 }

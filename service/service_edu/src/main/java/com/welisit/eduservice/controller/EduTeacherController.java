@@ -52,15 +52,15 @@ public class EduTeacherController {
     }
 
     @ApiOperation(value = "多条件分页查询讲师列表")
-    @GetMapping("{page}/{limit}")
+    @GetMapping("list")
     public R pageQueryList(
             @ApiParam(name = "pageNo", value = "当前页码", required = true)
-            @PathVariable Integer pageNo,
+            @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
 
             @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Integer limit,
+            @RequestParam(value = "limit", defaultValue = "5") Integer limit,
 
-            @ApiParam(name = "teacherQueryParam")
+            @ApiParam(name = "teacherQueryParam", value = "查询条件参数")
             TeacherQueryParam teacherQueryParam
             ){
 
