@@ -4,8 +4,10 @@ package com.welisit.eduservice.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.welisit.commonutils.R;
 import com.welisit.eduservice.entity.EduTeacher;
+import com.welisit.eduservice.entity.dto.TeacherQueryParam;
 import com.welisit.eduservice.service.EduTeacherService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,23 +51,29 @@ public class EduTeacherController {
         }
     }
 
-    @ApiOperation(value = "分页讲师列表")
+    @ApiOperation(value = "多条件分页查询讲师列表")
     @GetMapping("{page}/{limit}")
-    public R pageList(
-            @ApiParam(name = "page", value = "当前页码", required = true)
-            @PathVariable Integer page,
+    public R pageQueryList(
+            @ApiParam(name = "pageNo", value = "当前页码", required = true)
+            @PathVariable Integer pageNo,
 
             @ApiParam(name = "limit", value = "每页记录数", required = true)
-            @PathVariable Integer limit){
+            @PathVariable Integer limit,
 
-        Page<EduTeacher> pageParam = new Page<>(page, limit);
+            @ApiParam(name = "teacherQueryParam")
+            TeacherQueryParam teacherQueryParam
+            ){
 
-        eduTeacherService.page(pageParam, null);
-        List<EduTeacher> records = pageParam.getRecords();
-        long total = pageParam.getTotal();
+        Page<EduTeacher> page = new Page<>(pageNo, limit);
+
+        eduTeacherService.pageQuery(page, teacherQueryParam);
+        List<EduTeacher> records = page.getRecords();
+        long total = page.getTotal();
 
         return  R.ok().data("total", total).data("rows", records);
     }
+
+
 
 
 }
