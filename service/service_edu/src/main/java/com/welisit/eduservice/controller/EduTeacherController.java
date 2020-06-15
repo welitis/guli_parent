@@ -7,7 +7,6 @@ import com.welisit.eduservice.entity.EduTeacher;
 import com.welisit.eduservice.entity.dto.TeacherQueryParam;
 import com.welisit.eduservice.service.EduTeacherService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,6 @@ public class EduTeacherController {
 
     @Autowired
     private EduTeacherService eduTeacherService;
-
-    @ApiOperation(value = "所有讲师列表")
-    @GetMapping
-    public R list(){
-        List<EduTeacher> list = eduTeacherService.list(null);
-        return R.ok().data("items", list);
-    }
 
     @ApiOperation(value = "根据ID删除讲师")
     @DeleteMapping("{id}")
@@ -63,7 +55,7 @@ public class EduTeacherController {
             @ApiParam(name = "teacherQueryParam", value = "查询条件参数")
             TeacherQueryParam teacherQueryParam
             ){
-
+        int i = 10 / 0;
         Page<EduTeacher> page = new Page<>(pageNo, limit);
 
         eduTeacherService.pageQuery(page, teacherQueryParam);
@@ -73,8 +65,34 @@ public class EduTeacherController {
         return  R.ok().data("total", total).data("rows", records);
     }
 
+    @ApiOperation(value = "新增讲师")
+    @PostMapping
+    public R addTeacher(
+            @ApiParam(name = "teacher", value = "讲师对象", required = true)
+            @RequestBody EduTeacher teacher){
 
+        eduTeacherService.save(teacher);
+        return R.ok();
+    }
 
+    @ApiOperation(value = "根据ID查询讲师")
+    @GetMapping("{id}")
+    public R getById(
+            @ApiParam(name = "id", value = "讲师ID", required = true)
+            @PathVariable String id){
+
+        EduTeacher teacher = eduTeacherService.getById(id);
+        return R.ok().data("item", teacher);
+    }
+
+    @ApiOperation(value = "根据ID修改讲师")
+    @PutMapping("{id}")
+    public R updateById(
+            @ApiParam(name = "teacher", value = "讲师对象", required = true)
+            @RequestBody EduTeacher teacher){
+        eduTeacherService.updateById(teacher);
+        return R.ok();
+    }
 
 }
 
