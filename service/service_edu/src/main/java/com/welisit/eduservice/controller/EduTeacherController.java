@@ -25,6 +25,7 @@ import java.util.List;
 @Api(description = "讲师管理")
 @RestController
 @RequestMapping("/eduservice/teacher")
+@CrossOrigin
 public class EduTeacherController {
 
     @Autowired
@@ -55,7 +56,6 @@ public class EduTeacherController {
             @ApiParam(name = "teacherQueryParam", value = "查询条件参数")
             TeacherQueryParam teacherQueryParam
             ){
-        int i = 10 / 0;
         Page<EduTeacher> page = new Page<>(pageNo, limit);
 
         eduTeacherService.pageQuery(page, teacherQueryParam);
