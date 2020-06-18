@@ -1,6 +1,7 @@
 package com.welisit.eduservice.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.welisit.commonutils.R;
 import com.welisit.eduservice.entity.EduTeacher;
@@ -9,10 +10,12 @@ import com.welisit.eduservice.service.EduTeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -70,7 +73,12 @@ public class EduTeacherController {
     public R addTeacher(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
             @RequestBody EduTeacher teacher){
-
+        // 获取排序的最大值
+        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("max(sort) as maxSort");
+        Map<String, Object> map = eduTeacherService.getMap(queryWrapper);
+        Integer maxSort = Integer.parseInt(map.get("maxSort").toString());
+        teacher.setSort(maxSort + 1);
         eduTeacherService.save(teacher);
         return R.ok();
     }
@@ -86,7 +94,7 @@ public class EduTeacherController {
     }
 
     @ApiOperation(value = "根据ID修改讲师")
-    @PutMapping("{id}")
+    @PutMapping()
     public R updateById(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
             @RequestBody EduTeacher teacher){

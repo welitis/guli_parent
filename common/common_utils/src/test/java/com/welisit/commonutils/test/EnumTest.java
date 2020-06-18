@@ -6,6 +6,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author welisit
@@ -28,5 +31,10 @@ public class EnumTest {
             System.out.println("sw.tostring");
             System.out.println(sw.toString());
         }
+    }
+
+    @Test
+    public void test3() {
+        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
     }
 }

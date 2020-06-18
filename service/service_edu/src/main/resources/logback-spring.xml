@@ -133,6 +133,7 @@
     <springProfile name="dev">
         <!--可以输出项目中的debug日志，包括mybatis的sql日志-->
         <logger name="com.welisit.eduservice.mapper" level="DEBUG" />
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" />
 
         <!--
             root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性

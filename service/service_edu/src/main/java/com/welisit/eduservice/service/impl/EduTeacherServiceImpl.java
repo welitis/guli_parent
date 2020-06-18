@@ -1,13 +1,12 @@
 package com.welisit.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.welisit.eduservice.entity.EduTeacher;
 import com.welisit.eduservice.entity.dto.TeacherQueryParam;
 import com.welisit.eduservice.mapper.EduTeacherMapper;
 import com.welisit.eduservice.service.EduTeacherService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,6 +24,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public void pageQuery(Page<EduTeacher> page, TeacherQueryParam teacherQueryParam) {
         QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("sort");
 
         if (teacherQueryParam == null) {
             baseMapper.selectPage(page, queryWrapper);
