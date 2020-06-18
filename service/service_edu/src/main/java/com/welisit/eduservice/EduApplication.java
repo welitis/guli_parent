@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @create 2020-06-13 8:36
  */
 @SpringBootApplication
+// 扫描包，为了扫描swagger配置
 @ComponentScan(basePackages = {"com.welisit"})
 public class EduApplication {
 
