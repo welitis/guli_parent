@@ -18,12 +18,12 @@ public class AliyunUtils {
 
     /**
      * 专门负责上传文件到OSS服务器的工具方法
-     * @param endpoint			OSS参数
+     * @param endpoint			OSS参数 节点域名
      * @param accessKeyId		OSS参数
      * @param accessKeySecret	OSS参数
      * @param inputStream		要上传的文件的输入流
-     * @param bucketName		OSS参数
-     * @param bucketDomain		OSS参数
+     * @param bucketName		OSS参数 桶名称
+     * @param bucketDomain		OSS参数 桶域名
      * @param originalName		要上传的文件的原始文件名
      * @return	包含上传结果以及上传的文件在OSS上的访问路径
      */

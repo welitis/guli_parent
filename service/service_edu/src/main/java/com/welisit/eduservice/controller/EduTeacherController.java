@@ -117,7 +117,7 @@ public class EduTeacherController {
     @PostMapping("avatar/upload")
     public R uploadAvatar(
             @ApiParam(name = "file", value = "文件对象", required = true)
-            MultipartFile multipartFile) {
+            @RequestParam("file") MultipartFile multipartFile) {
         try {
             InputStream inputStream = multipartFile.getInputStream();
             R result = AliyunUtils.uploadFileToOss(
@@ -126,17 +126,18 @@ public class EduTeacherController {
                     ossProperties.getAccessKeySecret(),
                     inputStream,
                     ossProperties.getBucketName(),
-                    ossProperties.getBucketName(),
+                    ossProperties.getBucketDomain(),
                     multipartFile.getOriginalFilename()
             );
             if (ResultCode.SUCCESS.equals(result.getCode())) {
                 return R.ok().data(result.getData());
             }
+            log.info("上传文件错误, {}", result.getMessage());
+            return R.error();
         } catch (IOException e) {
             e.printStackTrace();
             throw new ApiException(20002, "文件数据异常");
         }
-        return null;
     }
 }
 
