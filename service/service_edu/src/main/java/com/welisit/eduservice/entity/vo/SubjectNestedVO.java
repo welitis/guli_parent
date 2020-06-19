@@ -1,7 +1,6 @@
 package com.welisit.eduservice.entity.vo;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
