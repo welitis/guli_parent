@@ -21,4 +21,5 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param teacherQueryParam 查询参数对象
      */
     void pageQuery(Page<EduTeacher> page, TeacherQueryParam teacherQueryParam);
+
 }
