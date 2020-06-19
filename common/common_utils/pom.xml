@@ -20,13 +20,6 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
         </dependency>
 
-        <!-- excel生成工具 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
     </dependencies>
 
 </project>

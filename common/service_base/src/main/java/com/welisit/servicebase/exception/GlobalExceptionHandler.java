@@ -18,14 +18,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public R handle(Exception e) {
         log.error(ExceptionUtil.getMessage(e));
-        e.printStackTrace();
         return R.error().message(e.getMessage());
     }
 
     @ExceptionHandler(value = ApiException.class)
     public R apiException(ApiException e) {
         log.error(ExceptionUtil.getMessage(e));
-        e.printStackTrace();
         return R.error().message(e.getMessage()).code(e.getCode());
     }
 }

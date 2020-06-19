@@ -84,13 +84,7 @@ public class EduTeacherController {
     public R addTeacher(
             @ApiParam(name = "teacher", value = "讲师对象", required = true)
             @RequestBody EduTeacher teacher) {
-        // 获取排序最大值
-        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("max(sort) as maxSort");
-        Map<String, Object> map = eduTeacherService.getMap(queryWrapper);
-        Integer sort = Integer.parseInt(map.get("maxSort").toString());
-        teacher.setSort(sort);
-        eduTeacherService.save(teacher);
+        eduTeacherService.saveAndSort(teacher);
         return R.ok();
     }
 

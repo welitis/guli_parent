@@ -1,4 +1,4 @@
-package com.welisit.demo;
+package com.welisit.eduservice.demo;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -27,7 +27,8 @@ public class CodeGenerator {
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir("E:\\2-java\\note\\guli_parent\\service\\service_edu" + "/src/main/java");
+//        gc.setOutputDir("E:\\2-java\\note\\guli_parent\\service\\service_edu" + "/src/main/java");
+        gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("Welisit");
         gc.setOpen(false); //生成后是否打开资源管理器
         gc.setFileOverride(false); //重新生成时文件是否覆盖
@@ -60,7 +61,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_teacher"); // 设置需要生成的表名，可以多张表，用逗号隔开 strategy.setInclude("edu_teacher"， "wangwu")
+        strategy.setInclude("edu_subject"); // 设置需要生成的表名，可以多张表，用逗号隔开 strategy.setInclude("edu_teacher"， "wangwu")
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略 下划线改为驼峰命名
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 

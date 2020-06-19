@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.welisit.eduservice.entity.EduTeacher;
 import com.welisit.eduservice.entity.dto.TeacherQueryParam;
+import com.welisit.eduservice.mapper.EduSubjectMapper;
 import com.welisit.eduservice.mapper.EduTeacherMapper;
 import com.welisit.eduservice.service.EduTeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +22,9 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements EduTeacherService {
+
+    @Autowired
+    private EduTeacherMapper eduTeacherMapper;
 
     @Override
     public void pageQuery(Page<EduTeacher> page, TeacherQueryParam teacherQueryParam) {
@@ -53,5 +58,15 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
 
         baseMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public void saveAndSort(EduTeacher teacher) {
+        // 先查询最大排序值，然后设置当前对象的排序为最大值+1
+        QueryWrapper<EduTeacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("max(sort)");
+        Integer maxSort = eduTeacherMapper.selectCount(queryWrapper);
+        teacher.setSort(maxSort);
+        eduTeacherMapper.insert(teacher);
     }
 }

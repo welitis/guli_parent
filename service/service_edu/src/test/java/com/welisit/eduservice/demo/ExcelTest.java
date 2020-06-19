@@ -1,8 +1,8 @@
-package com.welisit.commonutils.test;
+package com.welisit.eduservice.demo;
 
 import com.alibaba.excel.EasyExcel;
-import com.welisit.commonutils.test.entity.DemoData;
-import com.welisit.commonutils.test.listen.ExcelListener;
+import com.welisit.eduservice.demo.entity.DemoData;
+import com.welisit.eduservice.demo.listen.ExcelListener;
 import org.junit.Test;
 
 import java.util.ArrayList;

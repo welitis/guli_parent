@@ -22,4 +22,9 @@ public interface EduTeacherService extends IService<EduTeacher> {
      */
     void pageQuery(Page<EduTeacher> page, TeacherQueryParam teacherQueryParam);
 
+    /**
+     * 设置讲师的排序值并保存
+     * @param teacher
+     */
+    void saveAndSort(EduTeacher teacher);
 }

@@ -1,4 +1,4 @@
-package com.welisit.commonutils.test.entity;
+package com.welisit.eduservice.demo.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 
