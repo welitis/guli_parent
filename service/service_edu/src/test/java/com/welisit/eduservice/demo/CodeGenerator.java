@@ -61,7 +61,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_subject"); // 设置需要生成的表名，可以多张表，用逗号隔开 strategy.setInclude("edu_teacher"， "wangwu")
+        strategy.setInclude("edu_course", "edu_course_collect", "edu_course_description", "edu_video", "edu_chapter", "edu_comment"); // 设置需要生成的表名，可以多张表，用逗号隔开 strategy.setInclude("edu_teacher"， "wangwu")
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略 下划线改为驼峰命名
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 
