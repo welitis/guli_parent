@@ -2,6 +2,8 @@ package com.welisit.eduservice.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -52,7 +54,8 @@ public class EduVideo implements Serializable {
     private Long playCount;
 
     @ApiModelProperty(value = "是否可以试听：0收费 1免费")
-    private Boolean isFree;
+    @TableField(value = "is_free")
+    private Boolean free;
 
     @ApiModelProperty(value = "视频时长（秒）")
     private Float duration;

@@ -20,4 +20,17 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 课程id
      */
     String saveCourseInfo(CourseInfoForm courseInfoForm);
+
+    /**
+     * 回显课程信息
+     * @return
+     * @param courseId
+     */
+    CourseInfoForm getCourseInfo(String courseId);
+
+    /**
+     * 更新课程表单信息
+     * @param courseInfoForm
+     */
+    void updateCourseInfoById(CourseInfoForm courseInfoForm);
 }

@@ -9,6 +9,7 @@ import com.welisit.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,5 +45,28 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourseDescriptionMapper.insert(eduCourseDescription);
 
         return courseId;
+    }
+
+    @Override
+    public CourseInfoForm getCourseInfo(String courseId) {
+        EduCourse eduCourse = eduCourseMapper.selectById(courseId);
+        EduCourseDescription eduCourseDescription = eduCourseDescriptionMapper.selectById(courseId);
+        CourseInfoForm courseInfoForm = new CourseInfoForm();
+        BeanUtils.copyProperties(eduCourse, courseInfoForm);
+        courseInfoForm.setDescription(eduCourseDescription.getDescription());
+        return courseInfoForm;
+    }
+
+    @Override
+    public void updateCourseInfoById(CourseInfoForm courseInfoForm) {
+        String courseId = courseInfoForm.getId();
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(courseInfoForm, eduCourse);
+        eduCourseMapper.updateById(eduCourse);
+
+        // 更新课程详情表
+        EduCourseDescription eduCourseDescription = new EduCourseDescription();
+        BeanUtils.copyProperties(courseInfoForm, eduCourseDescription);
+        eduCourseDescriptionMapper.updateById(eduCourseDescription);
     }
 }

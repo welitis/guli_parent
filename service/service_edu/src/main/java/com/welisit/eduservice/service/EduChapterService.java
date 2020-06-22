@@ -2,6 +2,9 @@ package com.welisit.eduservice.service;
 
 import com.welisit.eduservice.entity.EduChapter;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.welisit.eduservice.entity.vo.ChapterVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduChapterService extends IService<EduChapter> {
 
+    /**
+     * 获取嵌套课程章节视图列表
+     * @param courseId
+     * @return
+     */
+    List<ChapterVO> nestedList(String courseId);
 }

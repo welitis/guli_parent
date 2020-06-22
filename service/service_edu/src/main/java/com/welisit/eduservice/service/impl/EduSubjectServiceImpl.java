@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.welisit.eduservice.entity.EduSubject;
 import com.welisit.eduservice.entity.excel.SubjectData;
 import com.welisit.eduservice.entity.vo.SubjectNestedVO;
+import com.welisit.eduservice.entity.vo.SubjectVO;
 import com.welisit.eduservice.listener.SubjectListener;
 import com.welisit.eduservice.mapper.EduSubjectMapper;
 import com.welisit.eduservice.service.EduSubjectService;
@@ -75,9 +76,9 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
 //                System.out.println(" 循环次数：" + count++);
                 // 如果该二级目录的是当前类目的子级, 则创建一个二级类目视图对象加入到当前类目的children中
                 if (Objects.equals(subSubject.getParentId(), eduSubject.getId())) {
-                    SubjectNestedVO twoSubjectNestedVO = new SubjectNestedVO();
-                    BeanUtils.copyProperties(subSubject, twoSubjectNestedVO);
-                    subjectNestedVO.getChildren().add(twoSubjectNestedVO);
+                    SubjectVO twoSubjectVO = new SubjectVO();
+                    BeanUtils.copyProperties(subSubject, twoSubjectVO);
+                    subjectNestedVO.getChildren().add(twoSubjectVO);
                 }
             }
             // 对children中的二级类目排序
@@ -88,46 +89,4 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         return subjectNestedVOList;
     }
 
-    /**
-     * 方式二：利用递归展示分类层级
-     * @return
-     */
-    public List<SubjectNestedVO> nestedList2() {
-        List<EduSubject> eduSubjectList = eduSubjectMapper.selectList(null);
-        List<SubjectNestedVO> subjectNestedVOList = new ArrayList<>(eduSubjectList.size());
-        for (EduSubject eduSubject : eduSubjectList) {
-            SubjectNestedVO subjectNestedVO = new SubjectNestedVO();
-            BeanUtils.copyProperties(eduSubject, subjectNestedVO);
-            subjectNestedVOList.add(subjectNestedVO);
-        }
-        /**
-         * 递归
-         * 获取一个分类的所有子类
-         *
-         */
-        return rescurve(subjectNestedVOList, "0");
-
-    }
-
-    /**
-     * 递归实现获取所有子类
-     * @param subjectNestedVOList
-     * @param id
-     * @return
-     */
-    private List<SubjectNestedVO> rescurve(List<SubjectNestedVO> subjectNestedVOList, String id) {
-        List<SubjectNestedVO> childrenSubjectVOList = new ArrayList<>();
-        // 遍历传入的分类对象列表
-        for (SubjectNestedVO subjectNestedVO : subjectNestedVOList) {
-//            System.out.println(" 循环次数：" + count++);
-            // 如果该分类对象的父节点id等于当前id, 则说明该分类为当前分类的子类
-            if (Objects.equals(id, subjectNestedVO.getParentId())) {
-                // 将该分类添加进子类数组中
-                childrenSubjectVOList.add(subjectNestedVO);
-                // 获取该分类的子类
-                subjectNestedVO.setChildren(rescurve(subjectNestedVOList, subjectNestedVO.getId()));
-            }
-        }
-        return childrenSubjectVOList;
-    }
 }

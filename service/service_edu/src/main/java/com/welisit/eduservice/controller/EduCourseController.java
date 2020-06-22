@@ -1,9 +1,12 @@
 package com.welisit.eduservice.controller;
 
 
+import com.welisit.commonutils.AliyunUtils;
 import com.welisit.commonutils.R;
+import com.welisit.eduservice.entity.EduCourse;
 import com.welisit.eduservice.entity.dto.CourseInfoForm;
 import com.welisit.eduservice.service.EduCourseService;
+import com.welisit.servicebase.config.OSSProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -55,5 +59,24 @@ public class EduCourseController {
         }
     }
 
+    @ApiOperation(value = "获取课程信息")
+    @GetMapping("info/{id}")
+    public R getInfo(
+            @PathVariable("id") String courseId
+    ) {
+        CourseInfoForm courseInfo = eduCourseService.getCourseInfo(courseId);
+        log.info(courseInfo.toString());
+        return R.ok().data("item", courseInfo);
+    }
+
+    @ApiOperation(value = "更新课程")
+    @PutMapping("info")
+    public R updateCourseInfoById(
+            @ApiParam(name = "CourseInfoForm", value = "课程基本信息", required = true)
+            @RequestBody CourseInfoForm courseInfoForm){
+
+        eduCourseService.updateCourseInfoById(courseInfoForm);
+        return R.ok();
+    }
 }
 

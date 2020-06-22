@@ -1,28 +1,19 @@
 package com.welisit.eduservice.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.welisit.commonutils.AliyunUtils;
 import com.welisit.commonutils.R;
-import com.welisit.commonutils.ResultCode;
 import com.welisit.eduservice.entity.EduTeacher;
 import com.welisit.eduservice.entity.dto.TeacherQueryParam;
 import com.welisit.eduservice.service.EduTeacherService;
-import com.welisit.servicebase.config.OSSProperties;
-import com.welisit.servicebase.exception.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -40,9 +31,6 @@ import java.util.Map;
 public class EduTeacherController {
 
     @Autowired
-    private OSSProperties ossProperties;
-
-    @Autowired
     private EduTeacherService eduTeacherService;
 
     @ApiOperation(value = "根据ID删除讲师")
@@ -57,6 +45,14 @@ public class EduTeacherController {
             return R.error();
         }
     }
+
+    @ApiOperation(value = "查询所有讲师列表")
+    @GetMapping
+    public R getAllList(){
+        List<EduTeacher> eduTeacherList = eduTeacherService.list(null);
+        return R.ok().data("items", eduTeacherList);
+    }
+
 
     @ApiOperation(value = "多条件分页查询讲师列表")
     @GetMapping("list")
@@ -107,31 +103,5 @@ public class EduTeacherController {
         return R.ok();
     }
 
-    @ApiOperation(value = "上传头像")
-    @PostMapping("avatar/upload")
-    public R uploadAvatar(
-            @ApiParam(name = "file", value = "文件对象", required = true)
-            @RequestParam("file") MultipartFile multipartFile) {
-        try {
-            InputStream inputStream = multipartFile.getInputStream();
-            R result = AliyunUtils.uploadFileToOss(
-                    ossProperties.getEndPoint(),
-                    ossProperties.getAccessKeyId(),
-                    ossProperties.getAccessKeySecret(),
-                    inputStream,
-                    ossProperties.getBucketName(),
-                    ossProperties.getBucketDomain(),
-                    multipartFile.getOriginalFilename()
-            );
-            if (ResultCode.SUCCESS.equals(result.getCode())) {
-                return R.ok().data(result.getData());
-            }
-            log.info("上传文件错误, {}", result.getMessage());
-            return R.error();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new ApiException(20002, "文件数据异常");
-        }
-    }
 }
 
