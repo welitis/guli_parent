@@ -2,6 +2,7 @@ package com.welisit.eduservice.mapper;
 
 import com.welisit.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.welisit.eduservice.entity.vo.CoursePublishVO;
 
 /**
  * <p>
@@ -13,4 +14,17 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
+    CoursePublishVO selectCoursePublishVOById(String id);
+
+    /**
+     * 课程小节数自增
+     * @param courseId
+     */
+    void updateLessonNumPlusById(String courseId);
+
+    /**
+     * 课程小节数自减
+     * @param courseId
+     */
+    void updateLessonNumSubById(String courseId);
 }

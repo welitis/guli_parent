@@ -1,10 +1,13 @@
 package com.welisit.eduservice.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.welisit.commonutils.AliyunUtils;
 import com.welisit.commonutils.R;
 import com.welisit.eduservice.entity.EduCourse;
 import com.welisit.eduservice.entity.dto.CourseInfoForm;
+import com.welisit.eduservice.entity.dto.CourseQueryParam;
+import com.welisit.eduservice.entity.vo.CoursePublishVO;
 import com.welisit.eduservice.service.EduCourseService;
 import com.welisit.servicebase.config.OSSProperties;
 import io.swagger.annotations.Api;
@@ -77,6 +80,62 @@ public class EduCourseController {
 
         eduCourseService.updateCourseInfoById(courseInfoForm);
         return R.ok();
+    }
+
+    @ApiOperation(value = "根据ID获取课程发布信息")
+    @GetMapping("publish/{id}")
+    public R getCoursePublishVoById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+
+        CoursePublishVO courseInfoForm = eduCourseService.getCoursePublishVOById(id);
+        return R.ok().data("item", courseInfoForm);
+    }
+
+    @ApiOperation(value = "根据id发布课程")
+    @PutMapping("publish/{id}")
+    public R publishCourseById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable("id") String courseId){
+
+        eduCourseService.publishCourseById(courseId);
+        return R.ok();
+    }
+
+    @ApiOperation(value = "分页课程列表")
+    @GetMapping("{page}/{limit}")
+    public R pageQuery(
+            @ApiParam(name = "page", value = "当前页码", required = true)
+            @PathVariable Long page,
+
+            @ApiParam(name = "limit", value = "每页记录数", required = true)
+            @PathVariable Long limit,
+
+            @ApiParam(name = "courseQuery", value = "查询对象", required = false)
+                    CourseQueryParam courseQueryParam){
+
+        Page<EduCourse> pageParam = new Page<>(page, limit);
+
+        eduCourseService.pageQuery(pageParam, courseQueryParam);
+        List<EduCourse> records = pageParam.getRecords();
+
+        long total = pageParam.getTotal();
+
+        return  R.ok().data("total", total).data("rows", records);
+    }
+
+    @ApiOperation(value = "根据ID删除课程")
+    @DeleteMapping("{id}")
+    public R removeById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+
+        boolean result = eduCourseService.removeCourseById(id);
+        if(result){
+            return R.ok();
+        }else{
+            return R.error().message("删除失败");
+        }
     }
 }
 

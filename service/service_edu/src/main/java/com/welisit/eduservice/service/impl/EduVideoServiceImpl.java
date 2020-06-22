@@ -1,12 +1,16 @@
 package com.welisit.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.welisit.eduservice.entity.EduCourse;
 import com.welisit.eduservice.entity.EduVideo;
 import com.welisit.eduservice.entity.dto.VideoInfoForm;
+import com.welisit.eduservice.mapper.EduCourseMapper;
 import com.welisit.eduservice.mapper.EduVideoMapper;
 import com.welisit.eduservice.service.EduVideoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.welisit.servicebase.exception.ApiException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +23,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> implements EduVideoService {
+
+    @Autowired
+    private EduCourseMapper eduCourseMapper;
+
+    @Autowired
+    private EduVideoMapper eduVideoMapper;
 
     @Override
     public void saveVideoInfo(VideoInfoForm videoInfoForm) {
@@ -62,7 +72,7 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
     public boolean removeVideoById(String id) {
         //删除视频资源 TODO
 
-        Integer result = baseMapper.deleteById(id);
-        return null != result && result > 0;
+        int result = baseMapper.deleteById(id);
+        return result > 0;
     }
 }

@@ -1,13 +1,10 @@
 package com.welisit.eduservice.demo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.welisit.eduservice.entity.EduSubject;
-import com.welisit.eduservice.entity.EduTeacher;
-import com.welisit.eduservice.entity.EduVideo;
+import com.welisit.eduservice.entity.*;
 import com.welisit.eduservice.entity.vo.VideoVO;
-import com.welisit.eduservice.mapper.EduSubjectMapper;
-import com.welisit.eduservice.mapper.EduTeacherMapper;
-import com.welisit.eduservice.mapper.EduVideoMapper;
+import com.welisit.eduservice.mapper.*;
+import com.welisit.eduservice.service.EduCourseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +30,15 @@ public class MyBatisTest {
 
     @Autowired
     private EduVideoMapper eduVideoMapper;
+
+    @Autowired
+    private EduCourseMapper eduCourseMapper;
+
+    @Autowired
+    private EduCourseService eduCourseService;
+
+    @Autowired
+    private EduChapterMapper eduChapterMapper;
 
     @Test
     public void testInsert() {
@@ -75,5 +81,20 @@ public class MyBatisTest {
     public void testEduVideoMapper() {
         List<EduVideo> eduVideos = eduVideoMapper.selectList(null);
         System.out.println(eduVideos);
+    }
+
+    @Test
+    public void testUpdateIncrement() {
+        EduCourse eduCourse = new EduCourse();
+        eduCourse.setId("1274543294918979586");
+//        eduCourse.setTeacherId("aaahello");
+//        eduCourse.setLessonNum(-1);
+        eduCourseMapper.updateLessonNumPlusById("1274543294918979586");
+    }
+
+    @Test
+    public void testDeleteCourse() {
+//        eduChapterMapper.delete(new QueryWrapper<EduChapter>().eq("course_id", "1275092499760701442"));
+        eduCourseService.removeCourseById("1275092499760701442");
     }
 }
