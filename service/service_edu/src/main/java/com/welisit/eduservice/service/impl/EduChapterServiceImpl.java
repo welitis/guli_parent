@@ -11,6 +11,7 @@ import com.welisit.eduservice.mapper.EduChapterMapper;
 import com.welisit.eduservice.mapper.EduVideoMapper;
 import com.welisit.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.welisit.servicebase.exception.ApiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,5 +69,18 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
             chapterVOList.add(chapterVO);
         }
         return chapterVOList;
+    }
+
+    @Override
+    public boolean removeChapterById(String id) {
+        //根据id查询是否存在视频，如果有则提示用户尚有子节点
+        QueryWrapper<EduVideo> queryWrapper = new QueryWrapper<>();
+        List<EduVideo> eduVideoList = eduVideoMapper.selectList(queryWrapper.eq("chapter_id", id));
+        if(eduVideoList != null && eduVideoList.size() > 0){
+            throw new ApiException(20001,"该章节下存在视频课程，请先删除视频课程");
+        }
+
+        Integer result = baseMapper.deleteById(id);
+        return null != result && result > 0;
     }
 }

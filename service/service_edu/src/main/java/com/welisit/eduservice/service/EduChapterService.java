@@ -22,4 +22,11 @@ public interface EduChapterService extends IService<EduChapter> {
      * @return
      */
     List<ChapterVO> nestedList(String courseId);
+
+    /**
+     * 根据章节id删除章节信息
+     * @param id
+     * @return
+     */
+    boolean removeChapterById(String id);
 }
