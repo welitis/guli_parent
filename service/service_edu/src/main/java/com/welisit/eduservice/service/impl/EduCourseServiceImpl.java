@@ -2,6 +2,7 @@ package com.welisit.eduservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.welisit.eduservice.entity.EduChapter;
 import com.welisit.eduservice.entity.EduCourse;
 import com.welisit.eduservice.entity.EduCourseDescription;
@@ -13,13 +14,9 @@ import com.welisit.eduservice.mapper.EduChapterMapper;
 import com.welisit.eduservice.mapper.EduCourseDescriptionMapper;
 import com.welisit.eduservice.mapper.EduCourseMapper;
 import com.welisit.eduservice.mapper.EduVideoMapper;
-import com.welisit.eduservice.service.EduChapterService;
 import com.welisit.eduservice.service.EduCourseService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.welisit.eduservice.service.EduVideoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -95,6 +92,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public void publishCourseById(String courseId) {
         EduCourse course = new EduCourse();
         course.setId(courseId);
+        // 修改状态为已发布
         course.setStatus(EduCourse.COURSE_NORMAL);
         baseMapper.updateById(course);
     }
@@ -122,7 +120,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         }
 
         if (!StringUtils.isEmpty(subjectId)) {
-            queryWrapper.ge("subject_id", subjectId);
+            queryWrapper.eq("subject_id", subjectId);
         }
 
         baseMapper.selectPage(pageParam, queryWrapper);
