@@ -1,4 +1,4 @@
-package com.welisit.servicebase.config;
+package com.welisit.aliyun.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,10 +17,19 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "aliyun.oss")
 public class OSSProperties {
 
+    /**
+     * 节点域名
+     */
     private String endPoint;
+    /**
+     * 桶名称
+     */
     private String bucketName;
     private String accessKeyId;
     private String accessKeySecret;
+    /**
+     * 桶域名
+     */
     private String bucketDomain;
 
 }

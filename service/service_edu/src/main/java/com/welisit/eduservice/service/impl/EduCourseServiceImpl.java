@@ -15,6 +15,7 @@ import com.welisit.eduservice.mapper.EduCourseDescriptionMapper;
 import com.welisit.eduservice.mapper.EduCourseMapper;
 import com.welisit.eduservice.mapper.EduVideoMapper;
 import com.welisit.eduservice.service.EduCourseService;
+import com.welisit.eduservice.service.EduVideoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     private EduCourseDescriptionMapper eduCourseDescriptionMapper;
 
     @Autowired
-    private EduVideoMapper eduVideoMapper;
+    private EduVideoService eduVideoService;
 
     @Autowired
     private EduChapterMapper eduChapterMapper;
@@ -129,14 +130,15 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public boolean removeCourseById(String id) {
         //根据id删除所有视频
-        QueryWrapper<EduVideo> eduVideoQueryWrapper = new QueryWrapper<>();
-        eduVideoMapper.delete(eduVideoQueryWrapper.eq("course_id", id));
+        eduVideoService.removeByCourseId(id);
 
         //根据id删除所有章节
         eduChapterMapper.delete(new QueryWrapper<EduChapter>().eq("course_id", id));
 
         // 刪除所有簡介
         eduCourseDescriptionMapper.deleteById(id);
+
+        //删除封面 TODO 独立完成
 
         int result = baseMapper.deleteById(id);
         return result > 0;

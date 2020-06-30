@@ -2,14 +2,12 @@ package com.welisit.eduservice.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.welisit.commonutils.AliyunUtils;
 import com.welisit.commonutils.R;
 import com.welisit.eduservice.entity.EduCourse;
 import com.welisit.eduservice.entity.dto.CourseInfoForm;
 import com.welisit.eduservice.entity.dto.CourseQueryParam;
 import com.welisit.eduservice.entity.vo.CoursePublishVO;
 import com.welisit.eduservice.service.EduCourseService;
-import com.welisit.servicebase.config.OSSProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;

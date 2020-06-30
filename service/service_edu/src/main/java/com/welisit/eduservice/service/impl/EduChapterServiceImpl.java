@@ -79,7 +79,6 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         if(eduVideoList != null && eduVideoList.size() > 0){
             throw new ApiException(20001,"该章节下存在视频课程，请先删除视频课程");
         }
-
         Integer result = baseMapper.deleteById(id);
         return null != result && result > 0;
     }
